@@ -7,6 +7,7 @@ import net.minidev.json.annotate.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -26,8 +27,8 @@ public class User {
     private String adresse;
     private String phone;
     private List<CartItem> cart;
-    private Date createdAt;
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
 
 }
