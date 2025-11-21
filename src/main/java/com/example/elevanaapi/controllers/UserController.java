@@ -54,7 +54,7 @@ public class UserController {
             String token = this.userService.login(email, password);
 
             if(token==null){
-                return ResponseEntity.status(406).build();
+                return ResponseEntity.status(404).build();
             }
             return ResponseEntity.status(200).body(token);
 
