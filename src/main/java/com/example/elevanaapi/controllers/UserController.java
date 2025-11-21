@@ -39,4 +39,27 @@ public class UserController {
             return ResponseEntity.status(400).build();
         }
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(
+            @RequestParam("email") String email,
+            @RequestParam("password") String password
+    ){
+        try {
+
+            if ((!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"))
+                    || (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")))
+                return ResponseEntity.status(406).build();
+
+            String token = this.userService.login(email, password);
+
+            if(token==null){
+                return ResponseEntity.status(406).build();
+            }
+            return ResponseEntity.status(200).body(token);
+
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(400).build();
+        }
+    }
 }
