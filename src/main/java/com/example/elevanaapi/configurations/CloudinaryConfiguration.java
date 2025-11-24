@@ -6,16 +6,24 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-
 @Configuration
 public class CloudinaryConfiguration {
 
+    @Value("${elevanaapi.cloudinary.cloud-name}")
+    private String cloudName;
+
+    @Value("${elevanaapi.cloudinary.api-key}")
+    private String apiKey;
+
+    @Value("${elevanaapi.cloudinary.api-secret}")
+    private String apiSecret;
 
     @Bean
     public Cloudinary cloudinary() {
         return new Cloudinary(ObjectUtils.asMap(
-                "cloud_name", "dntenyj3n",
-                "api_key", "331459876225144",
-                "api_secret", "m8SgL_WrrhTh8e_QfP9qYun38A0"));
+                "cloud_name", cloudName,
+                "api_key", apiKey,
+                "api_secret", apiSecret
+        ));
     }
 }
