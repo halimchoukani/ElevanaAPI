@@ -17,6 +17,7 @@ public class Product {
     @Id
     private String id;
     private String name;
+    private String slug;
     private String description;
     private String category;
     private String image;
