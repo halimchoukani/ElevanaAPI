@@ -7,12 +7,10 @@ import com.example.elevanaapi.services.CloudinaryService;
 import com.example.elevanaapi.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -27,6 +25,19 @@ public class ProductController {
             Product product = productService.addProduct(productRequestDto);
             if(product != null){
                 return ResponseEntity.ok(Map.of("product", product));
+            }
+            return ResponseEntity.status(406).build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(400).build();
+        }
+    }
+
+    @GetMapping("")
+    public ResponseEntity<?> getProducts() {
+        try {
+            List<Product> products = productService.allProducts();
+            if(products != null){
+                return ResponseEntity.ok(products.toArray(new Product[0]));
             }
             return ResponseEntity.status(406).build();
         } catch (RuntimeException e) {
