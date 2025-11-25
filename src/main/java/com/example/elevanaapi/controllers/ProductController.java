@@ -45,5 +45,18 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/{slug}")
+    public ResponseEntity<?> getProductById(@PathVariable String slug) {
+        try{
+            Product product = productService.getProduct(slug);
+            if(product != null){
+                return ResponseEntity.ok(Map.of("product", product));
+            }
+            return ResponseEntity.status(406).build();
+        }catch (RuntimeException e){
+            return ResponseEntity.status(400).build();
+        }
+    }
+
 
 }

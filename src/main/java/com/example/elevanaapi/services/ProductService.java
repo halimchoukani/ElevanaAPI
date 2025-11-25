@@ -45,4 +45,8 @@ public class ProductService {
     public List<Product> allProducts(){
         return productRepository.findAll();
     }
+
+    public Product getProduct(String slug) {
+        return productRepository.getProductBySlug(slug);
+    }
 }
