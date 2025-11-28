@@ -53,6 +53,10 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+
+    public List<Product> getAllProductsByCategory(String categoryName){
+        return productRepository.getProductsByCategoryIgnoreCase(categoryName);
+    }
     public Product getProduct(String slug) {
         return productRepository.getProductBySlug(slug);
     }
