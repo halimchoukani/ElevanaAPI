@@ -14,8 +14,6 @@ import java.util.Map;
 @Component
 public class JWT {
     private static final long EXPIRATION_TIME = 864000000; // 10 days
-    private static final long RPT_EXPIRATION_TIME =  10 * 60 * 1000; // 10 minutes in milliseconds
-    private static final long TFA_EXPIRATION_TIME = 10 * 60 * 1000 ;
 
     private static final String SECRET_KEY = "w6H8Jd9kL2pQm4XyTzV7aNcRgUfXsYbC0E3oPqW1MvK5BZa8D1F7G0H2J3K4L5M6N7P8Q9R0S1T2U3V4W5X6Y7Z8";
 

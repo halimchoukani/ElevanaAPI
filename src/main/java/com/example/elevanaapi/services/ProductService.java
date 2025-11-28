@@ -17,10 +17,17 @@ public class ProductService {
     @Autowired
     private CloudinaryService cloudinaryService;
 
+    @Autowired
+    private CategoryService categoryService;
+
     public Product addProduct(ProductRequestDto productRequestDto) {
         Product product = new Product();
         product.setName(productRequestDto.getName());
         product.setDescription(productRequestDto.getDescription());
+        if(categoryService.findCategoryById(productRequestDto.getCategory())==null){
+            assert productRequestDto.getCategoryName() != null;
+            categoryService.createCategory(productRequestDto.getCategoryName(),productRequestDto.getCategoryImage(),1);
+        }
         product.setCategory(productRequestDto.getCategory());
         product.setOriginalPrice(productRequestDto.getOriginalPrice());
         product.setPrice(productRequestDto.getPrice());

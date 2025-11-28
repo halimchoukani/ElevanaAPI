@@ -1,5 +1,6 @@
 package com.example.elevanaapi.dto;
 
+import com.mongodb.lang.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,4 +22,8 @@ public class ProductRequestDto {
     private double originalPrice;
     private int stock;
     private List<String>features;
+    @Nullable
+    private MultipartFile categoryImage;
+    @Nullable
+    private String categoryName;
 }
