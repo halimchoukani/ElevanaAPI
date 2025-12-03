@@ -57,11 +57,14 @@ public class UserController {
     }
 
     @PutMapping("/add-cart")
-    public ResponseEntity<?> addToCart(@RequestBody String productId,@RequestBody int quantity,@RequestHeader String token){
+    public ResponseEntity<?> addToCart(@RequestParam("productId") String productId,@RequestParam("quantity") int quantity, @RequestHeader(value = "Authorization", required = false) String authHeader){
         try{
-            if(token==null){
-                return ResponseEntity.status(406).build();
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return ResponseEntity.status(406).body("Missing or invalid Authorization header");
             }
+
+            // Extract the raw token
+            String token = authHeader.substring(7);
             Map<Integer,Object> map = userService.addToCart(productId,token,quantity);
             return ResponseEntity.status(200).body(map);
 
@@ -72,12 +75,16 @@ public class UserController {
 
 
     @DeleteMapping("/remove-cart")
-    public ResponseEntity<?> removeFromCart(@RequestBody String productId,@RequestBody int quantity,@RequestHeader String token){
+    public ResponseEntity<?> removeFromCart(@RequestParam("productId") String productId,@RequestParam("quantity") int quantity, @RequestHeader(value = "Authorization", required = false) String authHeader){
         try{
-            if(token==null){
-                return ResponseEntity.status(406).build();
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return ResponseEntity.status(406).body("Missing or invalid Authorization header");
             }
-            Map<Integer,Object> map = userService.removeCart(pproductId,token,quantity);
+
+            // Extract the raw token
+            String token = authHeader.substring(7);
+
+            Map<Integer,Object> map = userService.removeCart(productId,token,quantity);
             return ResponseEntity.status(200).body(map);
 
         }catch (RuntimeException e){

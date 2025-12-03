@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -25,7 +26,7 @@ public class User {
     private String lastName;
     private String adresse;
     private String phone;
-    private List<CartItem> cart;
+    private List<CartItem> cart = new ArrayList<>();
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

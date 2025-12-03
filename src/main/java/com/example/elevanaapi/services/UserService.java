@@ -71,8 +71,7 @@ public class UserService {
             map.put(404,"User not found");
             return map;
         }
-        Product product = productService.getProduct(productId);
-
+        Product product = productService.getProductById(productId);
         if(product == null) {
             map.put(404, "Product not found");
             return map;
@@ -80,6 +79,7 @@ public class UserService {
         CartItem cartItem = new CartItem();
         cartItem.setProduct(product);
         cartItem.setQuantity(quantity);
+
         List<CartItem> cartItems = user.getCart();
         cartItems.add(cartItem);
         user.setCart(cartItems);
@@ -87,7 +87,7 @@ public class UserService {
         map.put(200,"Product successfully added to cart");
         return map;
     }
-    public Map<Integer, Object> removeCart(String productId, String token,int quantity) {
+    public Map<Integer, Object> removeCart(String productId, String token,int quantity)     {
         Optional<User> userResponce = userRepository.findById(jwt.extractUserId(token));
         Map<Integer,Object> map = new HashMap<>();
 
@@ -99,7 +99,7 @@ public class UserService {
             map.put(404,"User not found");
             return map;
         }
-        Product product = productService.getProduct(productId);
+        Product product = productService.getProductById(productId);
 
         if(product == null) {
             map.put(404, "Product not found");

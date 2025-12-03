@@ -57,6 +57,10 @@ public class ProductService {
     public List<Product> getAllProductsByCategory(String categoryName){
         return productRepository.getProductsByCategoryIgnoreCase(categoryName);
     }
+    public Product getProductById(String productId){
+
+        return productRepository.findById(productId).get();
+    }
     public Product getProduct(String slug) {
         return productRepository.getProductBySlug(slug);
     }

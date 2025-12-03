@@ -10,8 +10,12 @@ import java.util.List;
 
 @Repository
 public interface ProductRepository extends MongoRepository<Product, String> {
+    Product findProductById(String id);
+
     Product getProductBySlug(String slug);
 
     @Query("{ 'category': { $regex: ?0, $options: 'i' } }")
     List<Product> getProductsByCategoryIgnoreCase(String category);
+
+
 }
