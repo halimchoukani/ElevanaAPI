@@ -37,4 +37,9 @@ public class OrderService {
         order.setUserId(userid);
         return orderRepository.save(order);
     }
+
+    public List<Order> getOrders(String token) {
+        String userid = jwt.extractUserId(token);
+        return orderRepository.findAllByUserId(userid);
+    }
 }

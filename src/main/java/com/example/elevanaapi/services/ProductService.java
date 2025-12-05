@@ -64,4 +64,8 @@ public class ProductService {
     public Product getProduct(String slug) {
         return productRepository.getProductBySlug(slug);
     }
+
+    public void updateProduct(Product product) {
+        productRepository.save(product);
+    }
 }

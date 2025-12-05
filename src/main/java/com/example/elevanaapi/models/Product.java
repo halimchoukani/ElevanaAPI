@@ -24,9 +24,9 @@ public class Product {
     private List<String> images;
     private double price;
     private double originalPrice;
-    private double rating;
-    private int stock;
-    private int reviews;
+    private double rating=0;
+    private int stock=0;
+    private int reviews=0;
     private List<String>features;
     private Date createdAt;
 }

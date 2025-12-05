@@ -1,18 +1,21 @@
 package com.example.elevanaapi.controllers;
 
 
+import com.example.elevanaapi.configurations.JWT;
 import com.example.elevanaapi.dto.ProductRequestDto;
 import com.example.elevanaapi.models.Product;
 import com.example.elevanaapi.services.CloudinaryService;
 import com.example.elevanaapi.services.ProductService;
 import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/products")
@@ -20,9 +23,18 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private JWT jwt;
+
+
     @PostMapping("/add")
-    public ResponseEntity<?> add(ProductRequestDto productRequestDto) {
+    public ResponseEntity<?> add(ProductRequestDto productRequestDto,
+                                 @RequestHeader(value = "Authorization", required = false) String authHeader) {
         try {
+            String ROLE = jwt.extractClaim(authHeader, "role");
+            if(!Objects.equals(ROLE, "ADMIN")) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
             Product product = productService.addProduct(productRequestDto);
             if(product != null){
                 return ResponseEntity.ok(Map.of("product", product));

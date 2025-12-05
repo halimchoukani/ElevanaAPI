@@ -26,6 +26,10 @@ public class UserService {
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    public User getUserById(String id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
     public String login(String email,String password) {
         try {
             Optional<Object> user = userRepository.findByEmail(email);

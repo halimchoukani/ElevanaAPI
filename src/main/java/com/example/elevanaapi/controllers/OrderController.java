@@ -37,4 +37,18 @@ public class OrderController {
         }
 
     }
+
+    @GetMapping
+    public ResponseEntity<?> getOrders(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+        try{
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return ResponseEntity.status(406).body("Missing or invalid Authorization header");
+            }
+            String token = authHeader.substring(7);
+            List<Order> orders = orderService.getOrders(token);
+            return ResponseEntity.status(200).body(orders);
+        }catch(Exception e){
+            return ResponseEntity.status(406).body(null);
+        }
+    }
 }

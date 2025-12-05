@@ -18,6 +18,6 @@ public class Review{
     private String userName;
     private String productId;
     private String comment;
-    private Date date;
+    private Date date = new Date();
     private double rating;
 }
