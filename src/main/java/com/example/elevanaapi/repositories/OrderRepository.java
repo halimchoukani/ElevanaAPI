@@ -1,11 +1,10 @@
 package com.example.elevanaapi.repositories;
 
 import com.example.elevanaapi.models.Category;
-import com.example.elevanaapi.models.Product;
+import com.example.elevanaapi.models.Order;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-
-public interface CategoryRepository extends MongoRepository<Category, String> {
+public interface OrderRepository extends MongoRepository<Order, String> {
 }

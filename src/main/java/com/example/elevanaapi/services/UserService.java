@@ -1,6 +1,7 @@
 package com.example.elevanaapi.services;
 
 import com.example.elevanaapi.configurations.JWT;
+import com.example.elevanaapi.dto.Response;
 import com.example.elevanaapi.models.CartItem;
 import com.example.elevanaapi.models.Product;
 import com.example.elevanaapi.models.User;
@@ -59,21 +60,28 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Map<Integer, Object> addToCart(String productId, String token,int quantity) {
+    public Response<CartItem> addToCart(String productId, String token, int quantity) {
         Optional<User> userResponce = userRepository.findById(jwt.extractUserId(token));
-        Map<Integer,Object> map = new HashMap<>();
+        Response<CartItem> map = new Response<CartItem>();
 
         User user = null;
         if(userResponce.isPresent()) {
             user = userResponce.get();
         }
         if(user==null) {
-            map.put(404,"User not found");
+            map.setStatus(404);
+            map.setMessage("User not found");
             return map;
         }
         Product product = productService.getProductById(productId);
         if(product == null) {
-            map.put(404, "Product not found");
+            map.setStatus(404);
+            map.setMessage("Product not found");
+            return map;
+        }
+        if(product.getStock()<quantity) {
+            map.setStatus(404);
+            map.setMessage("Quantity is too high");
             return map;
         }
         CartItem cartItem = new CartItem();
@@ -84,25 +92,28 @@ public class UserService {
         cartItems.add(cartItem);
         user.setCart(cartItems);
         userRepository.save(user);
-        map.put(200,"Product successfully added to cart");
+        map.setStatus(200);
+        map.setMessage("Product added successfully");
+        map.setBody(cartItem);
         return map;
     }
-    public Map<Integer, Object> removeCart(String productId, String token,int quantity)     {
+    public Response<CartItem> removeCart(String productId, String token,int quantity)     {
         Optional<User> userResponce = userRepository.findById(jwt.extractUserId(token));
-        Map<Integer,Object> map = new HashMap<>();
+        Response<CartItem> map = new Response<CartItem>();
 
         User user = null;
         if(userResponce.isPresent()) {
             user = userResponce.get();
         }
         if(user==null) {
-            map.put(404,"User not found");
+            map.setStatus(404);
+            map.setMessage("User not found");
             return map;
         }
         Product product = productService.getProductById(productId);
-
         if(product == null) {
-            map.put(404, "Product not found");
+            map.setStatus(404);
+            map.setMessage("Product not found");
             return map;
         }
         CartItem cartItem = new CartItem();
@@ -112,7 +123,9 @@ public class UserService {
         cartItems.remove(cartItem);
         user.setCart(cartItems);
         userRepository.save(user);
-        map.put(200,"Product successfully removed from cart");
+        map.setStatus(200);
+        map.setMessage("Product deleted from the cart successfully");
+        map.setBody(cartItem);
         return map;
     }
 }

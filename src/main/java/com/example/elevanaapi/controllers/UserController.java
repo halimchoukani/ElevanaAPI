@@ -1,6 +1,8 @@
 package com.example.elevanaapi.controllers;
 
 
+import com.example.elevanaapi.dto.Response;
+import com.example.elevanaapi.models.CartItem;
 import com.example.elevanaapi.models.User;
 import com.example.elevanaapi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,8 +67,8 @@ public class UserController {
 
             // Extract the raw token
             String token = authHeader.substring(7);
-            Map<Integer,Object> map = userService.addToCart(productId,token,quantity);
-            return ResponseEntity.status(200).body(map);
+            Response<CartItem> res = userService.addToCart(productId,token,quantity);
+            return ResponseEntity.status(200).body(res);
 
         }catch (RuntimeException e){
             return ResponseEntity.status(400).build();
@@ -84,7 +86,7 @@ public class UserController {
             // Extract the raw token
             String token = authHeader.substring(7);
 
-            Map<Integer,Object> map = userService.removeCart(productId,token,quantity);
+            Response map = userService.removeCart(productId,token,quantity);
             return ResponseEntity.status(200).body(map);
 
         }catch (RuntimeException e){
